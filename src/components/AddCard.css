@@ -1,0 +1,66 @@
+.add-card-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+}
+  
+.input-field {
+    width: 100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-top: 0.3rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.bank-info {
+    display: flex;
+}
+  
+.expire {
+    margin-right: 1rem;
+}
+
+.ccv {
+    margin-left: 1rem;
+}
+  
+.vendor-select {
+    width: 100%;
+    padding: 0.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+   
+.add-card {
+    background-color: black;
+    color: white;
+    width: 100%; 
+    border: none;
+    margin-top: 3rem;
+    padding: 1.5rem;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.go-back-link {
+    display: block;
+    margin-top: 1rem;
+    text-align: center;
+    color: #007bff;
+    text-decoration: none;
+}
+
+  
+  
