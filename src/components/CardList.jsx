@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import magneticStripeIcon from '../assets/magnetic-stripe.svg';
+import Card from './Card.jsx';
 import './CardList.css';
 
 function CardList({ cards }) {
@@ -34,60 +34,18 @@ function CardList({ cards }) {
 
       {activeCard && (
         <div className="active-card-container active">
-            <p className='active-title'>ACTIVE CARD</p>
-          <div className={`card ${activeCard.vendor.toLowerCase().replace(/ /g, '-')}`}>
-          <div className='row1'>
-                <img src={magneticStripeIcon} alt="Magnetic Stripe Icon" className="magnetic-stripe-icon" />
-                <div className="card-name">{activeCard.vendor}</div>
-              </div>
-            <div className="card-details">
-              <div className="card-number">{activeCard.cardNumber}</div>
-              <div className="card-info">
-              <div className='name'>
-                    <p>CARDHOLDER NAME</p>
-                    <div className="card-holder">{activeCard.cardholder.toUpperCase()}</div>
-                  </div>
-                  <div className='valid'>
-                    <p>VALID THRU</p>
-                    <div className="valid-thru">{activeCard.validThru}</div>
-                  </div>
-              </div>
-            </div>
-          </div>
+          <p className='active-title'>ACTIVE CARD</p>
+          <Card card={activeCard} isActive={true} onRemove={() => handleRemoveCard()} />
         </div>
       )}
 
       <ul className="card-list">
         {cardList.map((card, index) => (
-          <li key={index} onClick={() => handleSetActiveCard(card)} className="inactive">
-            <div className={`card ${card.vendor.toLowerCase().replace(/ /g, '-')}`}>
-            <div className='row1'>
-                <img src={magneticStripeIcon} alt="Magnetic Stripe Icon" className="magnetic-stripe-icon" />
-                <div className="card-name">{card.vendor}</div>
-              </div>
-              <div className="card-details">
-                <div className="card-number">{card.cardNumber}</div>
-                <div className="card-info">
-                <div className='name'>
-                    <p>CARDHOLDER NAME</p>
-                    <div className="card-holder">{card.cardholder.toUpperCase()}</div>
-                  </div>
-                  <div className='valid'>
-                    <p>VALID THRU</p>
-                    <div className="valid-thru">{card.validThru}{card.expireYear}</div>
-                  </div>
-                 
-                </div>
-                <button className='removeBtn' onClick={(event) => handleRemoveCard(event, index)}>Remove Card</button>
-              </div>
-             
-            </div> 
-          </li>
+          <Card key={index} card={card} onClick={() => handleSetActiveCard(card)} isActive={card === activeCard} onRemove={(event) => handleRemoveCard(event, index)} />
         ))}
       </ul>   
-        <Link to="/addcard" className="add-card-button">ADD A NEW CARD</Link>
+      <Link to="/addcard" className="add-card-button">ADD A NEW CARD</Link>
     </div>
-    
   );
 }
 

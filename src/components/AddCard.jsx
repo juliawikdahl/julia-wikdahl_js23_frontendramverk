@@ -1,5 +1,7 @@
+// AddCard.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Card from './Card'; 
 import './AddCard.css';
 
 function AddCard({ onAddCard }) {
@@ -25,23 +27,23 @@ function AddCard({ onAddCard }) {
       return;
     }
 
-  const currentYear = new Date().getFullYear() % 100;
-  const [inputMonth, inputYear] = validThru.split('/');
-  const inputMonthNumber = parseInt(inputMonth, 10);
-  const inputYearNumber = parseInt(inputYear, 10);
-  if (
-    isNaN(inputMonthNumber) ||
-    isNaN(inputYearNumber) ||
-    inputMonthNumber < 1 || inputMonthNumber > 12 ||
-    inputYearNumber < currentYear || inputYearNumber > currentYear + 20
-  ) {
-    setErrorMessage('Ogiltigt datumformat eller datumet är i det förflutna. Använd formatet MM/YY.');
-    return;
-  }
+    const currentYear = new Date().getFullYear() % 100;
+    const [inputMonth, inputYear] = validThru.split('/');
+    const inputMonthNumber = parseInt(inputMonth, 10);
+    const inputYearNumber = parseInt(inputYear, 10);
+    if (
+      isNaN(inputMonthNumber) ||
+      isNaN(inputYearNumber) ||
+      inputMonthNumber < 1 || inputMonthNumber > 12 ||
+      inputYearNumber < currentYear || inputYearNumber > currentYear + 20
+    ) {
+      setErrorMessage('Ogiltigt datumformat eller datumet är i det förflutna. Använd formatet MM/YY.');
+      return;
+    }
 
     if (!/^\d{3}$/.test(ccv)) {
-        setErrorMessage('CCV must be 3 digits.');
-        return;
+      setErrorMessage('CCV must be 3 digits.');
+      return;
     }
   
     const newCard = {
@@ -52,9 +54,6 @@ function AddCard({ onAddCard }) {
       ccv
     };
 
-    const existingCards = JSON.parse(localStorage.getItem('cards')) || [];
-  localStorage.setItem('cards', JSON.stringify([...existingCards, newCard]));
-
     onAddCard(newCard);
     setVendor('');
     setCardNumber('');
@@ -64,11 +63,19 @@ function AddCard({ onAddCard }) {
     setErrorMessage('');
   };
 
+  const emptyCard = {
+    cardNumber: 'XXXXXXXXXXXXXXXX',
+    cardholder: 'FIRSTNAME LASTNAME',
+    validThru: 'MM/YY',
+    ccv: '123'
+  };
+
   return (
     <div className="add-card-container">
-      <h1>ADD A NEW BANK CARD</h1>
-      <form onSubmit={handleSubmit}>
+      <Card card={emptyCard} />
       
+      <h1 className='title'>ADD A NEW BANK CARD</h1>
+      <form onSubmit={handleSubmit}>
         <div>
           <label>Card Number:</label>
           <input type="text" placeholder='XXXXXXXXXXXXXXXX' value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} className="input-field" />
@@ -77,20 +84,16 @@ function AddCard({ onAddCard }) {
           <label>Cardholder:</label>
           <input type="text" placeholder='FIRSTNAME LASTNAME' value={cardholder} onChange={(e) => setCardholder(e.target.value)} className="input-field" />
         </div>
-       
-
         <div className='bank-info'>
-        <div className='expire'>
-          <label>VALID THRU:</label>
-          <input type="text" placeholder='MM/YY' value={validThru} onChange={(e) => setValidThru(e.target.value)} className="input-field" />
+          <div className='expire'>
+            <label>VALID THRU:</label>
+            <input type="text" placeholder='MM/YY' value={validThru} onChange={(e) => setValidThru(e.target.value)} className="input-field" />
+          </div>
+          <div className='ccv'>
+            <label>CCV:</label>
+            <input type="text" placeholder='123' value={ccv} onChange={(e) => setCcv(e.target.value)} className="input-field" />
+          </div>
         </div>
-
-        <div className='ccv'>
-          <label>CCV:</label>
-          <input type="text" placeholder='123' value={ccv} onChange={(e) => setCcv(e.target.value)} className="input-field" />
-        </div>
-        </div>
-
         <div>
           <label>Vendor:</label>
           <select value={vendor} onChange={handleVendorChange} className="vendor-select">
